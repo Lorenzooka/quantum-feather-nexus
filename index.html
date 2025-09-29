@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Σ∞3 Tesla Towers — Generator + Collection</title>
+  <meta name="description" content="Tesla Towers (Σ∞3) — NFT generátor és kollekció egy helyen: image splitter, rarity, metadata export, 3•6•9 manifesto tracker, és élő gyűjtemény." />
+  <meta name="theme-color" content="#5b21b6" />
+  <meta property="og:title" content="Σ∞3 Tesla Towers — Generator + Collection" />
+  <meta property="og:description" content="Image Splitter • Rarity • Metadata • 3•6•9 • Live Collection" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:," />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .bg-grad { background: radial-gradient(1200px 600px at 20% 10%, rgba(91,33,182,.35), transparent 60%),
+                         radial-gradient(900px 500px at 80% 0%, rgba(59,130,246,.20), transparent 50%),
+                         #0b0b10; }
+    .glass { background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.06); }
+    .btn  { padding-left: 1rem; padding-right: 1rem; padding-top: 0.5rem; padding-bottom: 0.5rem; border-radius: 0.375rem; font-weight: 500; }
+    iframe { border: none; width: 100%; }
+    @media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto} }
+  </style>
+</head>
+<body class="text-gray-100 bg-grad antialiased">
+  <!-- NAV -->
+  <header class="sticky top-0 z-50 backdrop-blur bg-black/30 border-b border-white/10">
+    <nav class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <svg class="w-7 h-7 text-purple-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="5" y="3" width="10" height="10" rx="2" transform="rotate(45 5 3)"/>
+          <rect x="9" y="7" width="10" height="10" rx="2" transform="rotate(45 9 7)"/>
+        </svg>
+        <span class="font-bold tracking-wide">Σ∞3 • Tesla Towers</span>
+      </div>
+      <div class="hidden md:flex gap-6 text-sm">
+        <a href="#generator" class="hover:text-purple-300">Generátor</a>
+        <a href="#manifesto" class="hover:text-purple-300">3•6•9</a>
+        <a href="#splitter" class="hover:text-purple-300">Image Splitter</a>
+        <a href="#tesla" class="hover:text-purple-300">Kollekció</a>
+        <a href="#export" class="hover:text-purple-300">Export</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section id="generator" class="max-w-5xl mx-auto px-4 pt-12 pb-8">
+    <h1 class="text-3xl md:text-5xl font-extrabold leading-tight">
+      NFT Art Generator — <span class="text-purple-400">Tesla Edition</span>
+    </h1>
+    <p class="mt-4 text-gray-300 max-w-3xl">
+      Egyesített dashboard: rétegfeltöltés, ritkaság beállítás, metadata export és az élő
+      <span class="font-semibold">Tesla Towers</span> kollekció megtekintése — mindezt egy oldalon.
+    </p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a href="#splitter" class="btn bg-purple-600 hover:bg-purple-500">Image Splitter</a>
+      <a href="#tesla" class="btn border border-purple-500 hover:bg-purple-500/20">Tesla kollekció</a>
+    </div>
+    <!-- (opcionális) Connect Wallet stub -->
+    <div class="mt-4 text-xs text-gray-400">Mint gomb és wallet-csatlakozás hamarosan (Polygon/ETH).</div>
+  </section>
+
+  <!-- 3•6•9 MANIFESTO TRACKER -->
+  <section id="manifesto" class="max-w-5xl mx-auto px-4 pb-10">
+    <div class="glass rounded-xl p-5">
+      <h2 class="text-xl font-bold mb-2">3•6•9 Tesla Manifesto – napi tracker</h2>
+      <p class="text-gray-300 mb-4">
+        Mantra (írj bele bátran, ez mentésre kerül):</p>
+      <textarea id="affirm" class="w-full glass rounded p-3 text-sm resize-y"
+        rows="3">Ma megváltozik az életem. A Σ∞3 Tesla Towers projektem és az NFT kollekcióm sikeres. Energiám fókuszált, bőség és kreativitás áramlik felém.</textarea>
+
+      <div class="grid sm:grid-cols-3 gap-4 mt-4">
+        <div class="glass rounded p-4">
+          <div class="text-sm text-gray-400">Reggel</div>
+          <div class="text-2xl font-bold"><span id="mornCount">0</span>/3</div>
+          <button data-key="morn" class="btn mt-2 bg-emerald-600 hover:bg-emerald-500 w-full">+1</button>
+        </div>
+        <div class="glass rounded p-4">
+          <div class="text-sm text-gray-400">Dél</div>
+          <div class="text-2xl font-bold"><span id="noonCount">0</span>/6</div>
+          <button data-key="noon" class="btn mt-2 bg-blue-600 hover:bg-blue-500 w-full">+1</button>
+        </div>
+        <div class="glass rounded p-4">
+          <div class="text-sm text-gray-400">Este</div>
+          <div class="text-2xl font-bold"><span id="eveCount">0</span>/9</div>
+          <button data-key="eve"  class="btn mt-2 bg-purple-600 hover:bg-purple-500 w-full">+1</button>
+        </div>
+      </div>
+
+      <div class="mt-4 flex items-center justify-between">
+        <div class="text-xs text-gray-400">A számláló a mai napra mentve (localStorage). Éjfélkor automatikus reset.</div>
+        <button id="resetDay" class="btn border border-white/20 hover:bg-white/10">Napi reset</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMAGE SPLITTER (iframe) -->
+  <section id="splitter" class="max-w-6xl mx-auto px-4 pb-10">
+    <div class="glass rounded-xl p-5">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold">Image Splitter</h2>
+        <a class="text-sm text-purple-300 hover:underline" href="perfect_image_splitter.html">Megnyitás külön</a>
+      </div>
+      <div class="mt-4">
+        <iframe id="splitterFrame" src="perfect_image_splitter.html" title="Image Splitter" style="height:640px"></iframe>
+      </div>
+      <p class="text-xs text-gray-400 mt-2">Ha nincs ilyen fájl a repóban, egy info‑üzenet jelenhet meg az iframe helyén.</p>
+    </div>
+  </section>
+
+  <!-- TESLA COLLECTION (beágyazva) -->
+  <section id="tesla" class="max-w-6xl mx-auto px-4 pb-12">
+    <div class="glass rounded-xl p-5">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold">Tesla Towers — élő kollekció</h2>
+        <a class="text-sm text-purple-300 hover:underline"
+           href="https://lorenzooka.github.io/quantum-feather-nexus/tower_collection.html" target="_blank" rel="noopener">Megnyitás új lapon</a>
+      </div>
+      <div class="mt-4">
+        <iframe id="teslaFrame" src="tower_collection.html" title="Tesla Towers Collection" style="height:900px"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPORT / CTA -->
+  <section id="export" class="max-w-5xl mx-auto px-4 pb-16">
+    <div class="glass rounded-xl p-6 text-center">
+      <h2 class="text-xl font-bold mb-2">Export & Deploy</h2>
+      <p class="text-gray-300 mb-4">
+        Exportáld a képeket + metadata JSON/CSV‑t, töltsd fel IPFS‑re (CID), majd a szerződés tokenURI‑ját állítsd ezekre. Szükség esetén segítek a scripteléssel.
+      </p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <a href="metadata_batch_3tiers_json.zip" class="btn border border-purple-500 hover:bg-purple-500/20">JSON (minta)</a>
+        <a href="tesla_towers_batch_3tiers.csv" class="btn border border-purple-500 hover:bg-purple-500/20">CSV (minta)</a>
+        <a href="tower_sequence_sample.csv" class="btn border border-purple-500 hover:bg-purple-500/20">Reveal sorrend (minta)</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="text-center text-xs text-gray-500 pb-10">© Σ∞3 Tesla Towers</footer>
+
+  <!-- Scripts -->
+  <script>
+    // ===== Iframe auto-height (same-origin oldalakhoz) =====
+    function autoHeight(iframe){
+      try{
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        if (!doc) return;
+        const h = Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight);
+        iframe.style.height = Math.min(Math.max(h, 600), 3000) + "px";
+      }catch(e){ /* cross-origin fallback: hagyjuk az alap magasságot */ }
+    }
+    ['splitterFrame','teslaFrame'].forEach(id=>{
+      const ifr = document.getElementById(id);
+      if(!ifr) return;
+      ifr.addEventListener('load', ()=> autoHeight(ifr));
+      // Biztonsági ismétlés
+      setInterval(()=> autoHeight(ifr), 2000);
+    });
+
+    // ===== 3•6•9 Manifesto tracker =====
+    (function(){
+      const affirm = document.getElementById('affirm');
+      const morn = document.getElementById('mornCount');
+      const noon = document.getElementById('noonCount');
+      const eve  = document.getElementById('eveCount');
+      const resetBtn = document.getElementById('resetDay');
+
+      const todayKey = (()=>{ const d=new Date(); return `369_${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}` })();
+
+      function load(){
+        const data = JSON.parse(localStorage.getItem(todayKey) || '{"m":0,"n":0,"e":0,"a":""}');
+        morn.textContent = data.m||0; noon.textContent = data.n||0; eve.textContent = data.e||0;
+        affirm.value = data.a || affirm.value;
+      }
+      function save(){
+        const obj = { m: +morn.textContent, n:+noon.textContent, e:+eve.textContent, a: affirm.value };
+        localStorage.setItem(todayKey, JSON.stringify(obj));
+      }
+      function inc(which){
+        const el = which==='morn'?morn: which==='noon'?noon: eve;
+        const max = which==='morn'?3: which==='noon'?6: 9;
+        const v = Math.min(+el.textContent+1, max);
+        el.textContent = v; save();
+      }
+
+      document.querySelectorAll('button[data-key]').forEach(btn=>{
+        btn.addEventListener('click', ()=> inc(btn.dataset.key));
+      });
+      resetBtn.addEventListener('click', ()=>{ localStorage.removeItem(todayKey); load(); });
+
+      affirm.addEventListener('input', save);
+      load();
+    })();
+  </script>
+</body>
+</html>
