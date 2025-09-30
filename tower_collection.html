@@ -315,6 +315,68 @@
     "stage": "Base"
   }
 ];
+    // Translation dictionary and language
+    const translations = {
+      en: {
+        title: "Tesla Towers Collection",
+        filterLabel: "Filter by class:",
+        search: "Search...",
+        all: "All",
+        common: "Common",
+        rare: "Rare",
+        legendary: "Legendary",
+        id: "ID:",
+        element: "Element:",
+        aura: "Aura:",
+        class: "Class:",
+        origin: "Origin:"
+      },
+      ro: {
+        title: "Colecția Tesla Towers",
+        filterLabel: "Filtrare după clasă:",
+        search: "Caută...",
+        all: "Toate",
+        common: "Comun",
+        rare: "Rar",
+        legendary: "Legendar",
+        id: "ID:",
+        element: "Element:",
+        aura: "Aura:",
+        class: "Clasă:",
+        origin: "Origine:"
+      },
+      hu: {
+        title: "Tesla Towers kollekció",
+        filterLabel: "Szűrés osztály szerint:",
+        search: "Keresés...",
+        all: "Összes",
+        common: "Közönséges",
+        rare: "Ritka",
+        legendary: "Legendás",
+        id: "ID:",
+        element: "Elem:",
+        aura: "Aura:",
+        class: "Osztály:",
+        origin: "Eredet:"
+      }
+    };
+    let lang = localStorage.getItem('lang') || 'en';
+    let trans = translations[lang];
+    function applyTranslations() {
+      trans = translations[lang] || translations.en;
+      document.querySelector('h1').textContent = trans.title;
+      const label = document.querySelector('label');
+      if (label) label.textContent = trans.filterLabel;
+      const searchEl = document.getElementById('search');
+      if (searchEl) searchEl.placeholder = trans.search;
+      document.querySelectorAll('.btn-class').forEach(btn => {
+        const v = btn.dataset.class;
+        if (v === 'All') btn.textContent = trans.all;
+        else if (v === 'Common') btn.textContent = trans.common;
+        else if (v === 'Rare') btn.textContent = trans.rare;
+        else if (v === 'Legendary') btn.textContent = trans.legendary;
+      });
+    }
     let currentClass = 'All';
     function render(filter = '') {
       const container = document.getElementById('collection');
@@ -332,15 +394,16 @@
       for (const t of filtered) {
         const card = document.createElement('div');
         card.className = 'glass p-4 rounded-lg hover:bg-white/10';
+        // Build card content with translations
         card.innerHTML = `
           <h3 class="text-lg font-bold mb-1">${t.name}</h3>
           <p class="text-xs mb-2 text-gray-300">${t.description}</p>
           <ul class="text-sm space-y-1">
-            <li><strong>ID:</strong> ${t.tokenID}</li>
-            <li><strong>Element:</strong> ${t.element}</li>
-            <li><strong>Aura:</strong> ${t.aura}</li>
-            <li><strong>Class:</strong> ${t.class}</li>
-            <li><strong>Origin:</strong> ${t.origin}</li>
+            <li><strong>${trans.id}</strong> ${t.tokenID}</li>
+            <li><strong>${trans.element}</strong> ${t.element}</li>
+            <li><strong>${trans.aura}</strong> ${t.aura}</li>
+            <li><strong>${trans.class}</strong> ${t.class}</li>
+            <li><strong>${trans.origin}</strong> ${t.origin}</li>
           </ul>
         `;
         container.appendChild(card);
@@ -362,7 +425,8 @@
         render(document.getElementById('search').value);
       });
     });
-    // initial render
+    // Apply translations and initial render
+    applyTranslations();
     render();
   </script>
 </body>
