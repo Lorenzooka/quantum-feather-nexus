@@ -13,19 +13,357 @@
     }
     .glass {
       background: rgba(255,255,255,.05);
-      border:1px solid rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.08);
     }
   </style>
 </head>
-<body class="bg-grad text-gray-100 min-h-screen flex flex-col items-center p-8">
-  <h1 class="text-2xl md:text-4xl font-extrabold mb-4">Tesla Towers Collection</h1>
-  <div class="glass p-6 rounded-xl max-w-5xl w-full">
-    <p class="mb-4">
-      This page will showcase your Tesla Towers NFT collection with rarity filtering, metadata display and more.
-    </p>
-    <p>
-      Populate this page with data from your IPFS metadata and images when ready.
-    </p>
+<body class="bg-grad text-gray-100 min-h-screen p-6">
+  <header class="max-w-7xl mx-auto mb-6 flex items-center justify-between">
+    <h1 class="text-3xl font-extrabold">Tesla Towers Collection</h1>
+    <div>
+      <input id="search" type="text" placeholder="Search..." class="p-2 rounded text-black"/>
+    </div>
+  </header>
+  <div class="mb-4">
+    <label class="mr-2">Filter by class:</label>
+    <button class="btn-class px-3 py-1 bg-purple-600 rounded mr-1" data-class="All">All</button>
+    <button class="btn-class px-3 py-1 bg-purple-500 rounded mr-1" data-class="Common">Common</button>
+    <button class="btn-class px-3 py-1 bg-purple-500 rounded mr-1" data-class="Rare">Rare</button>
+    <button class="btn-class px-3 py-1 bg-purple-500 rounded" data-class="Legendary">Legendary</button>
   </div>
+  <div id="collection" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+  <script>
+    const tokens = [
+  {
+    "tokenID": 101,
+    "name": "Tesla Tower #0101 – Amber Spire",
+    "description": "Elemental spire bathed in amber storms. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0101.png",
+    "external_url": "",
+    "number": 3,
+    "element": "Storm",
+    "aura": "Amber Surge",
+    "class": "Common",
+    "origin": "Earth Realm",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 102,
+    "name": "Tesla Tower #0102 – Violet Coil",
+    "description": "Calm tower with violet arcs and steady hum. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0102.png",
+    "external_url": "",
+    "number": 6,
+    "element": "Plasma",
+    "aura": "Violet Arc",
+    "class": "Common",
+    "origin": "Night Coast",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 103,
+    "name": "Tesla Tower #0103 – Emerald Pulse",
+    "description": "Green corona dances around the glass crown. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0103.png",
+    "external_url": "",
+    "number": 9,
+    "element": "Forest",
+    "aura": "Emerald Pulse",
+    "class": "Common",
+    "origin": "Forest Rim",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 104,
+    "name": "Tesla Tower #0104 – Azure Beacon",
+    "description": "Oceanic airflow focuses pale-blue lightning. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0104.png",
+    "external_url": "",
+    "number": 3,
+    "element": "Water",
+    "aura": "Azure Cascade",
+    "class": "Common",
+    "origin": "Reef Coast",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 105,
+    "name": "Tesla Tower #0105 – Indigo Crown",
+    "description": "High-altitude tower under indigo storms. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0105.png",
+    "external_url": "",
+    "number": 6,
+    "element": "Air",
+    "aura": "Indigo Flash",
+    "class": "Common",
+    "origin": "Sky Harbor",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 106,
+    "name": "Tesla Tower #0106 – Teal Resonator",
+    "description": "Cold teal ions wrap the mast. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0106.png",
+    "external_url": "",
+    "number": 9,
+    "element": "Ice",
+    "aura": "Teal Spark",
+    "class": "Common",
+    "origin": "Glacier Hollow",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 107,
+    "name": "Tesla Tower #0107 – Sage Spiral",
+    "description": "Sage-green filaments root to the ground. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0107.png",
+    "external_url": "",
+    "number": 3,
+    "element": "Earth",
+    "aura": "Sage Surge",
+    "class": "Common",
+    "origin": "Stone Valley",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 108,
+    "name": "Tesla Tower #0108 – Cerulean Lighthouse",
+    "description": "Cerulean rings radiate from the capstone. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0108.png",
+    "external_url": "",
+    "number": 6,
+    "element": "Light",
+    "aura": "Cerulean Halo",
+    "class": "Common",
+    "origin": "Blue Sound",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 201,
+    "name": "Tesla Tower #0201 – Verdant Coil",
+    "description": "Living tree trunk threaded with copper coils. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0201.png",
+    "external_url": "",
+    "number": 3,
+    "element": "Wood",
+    "aura": "Leafstorm",
+    "class": "Rare",
+    "origin": "Forest Realm",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 202,
+    "name": "Tesla Tower #0202 – Coral Beacon",
+    "description": "Coral-grown tower channeling tidal resonance. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0202.png",
+    "external_url": "",
+    "number": 6,
+    "element": "Coral",
+    "aura": "Seafoam Glow",
+    "class": "Rare",
+    "origin": "Reef Coast",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 203,
+    "name": "Tesla Tower #0203 – Crystal Grotto Spire",
+    "description": "Cave-born crystal spiral reflecting auroras. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0203.png",
+    "external_url": "",
+    "number": 9,
+    "element": "Crystal",
+    "aura": "Prismatic Gleam",
+    "class": "Rare",
+    "origin": "Crystal Cave",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 204,
+    "name": "Tesla Tower #0204 – Chromium Helix",
+    "description": "Futuristic metal spire with helical band. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0204.png",
+    "external_url": "",
+    "number": 3,
+    "element": "Metal",
+    "aura": "Steel Arc",
+    "class": "Rare",
+    "origin": "Storm Rift",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 205,
+    "name": "Tesla Tower #0205 – Emerald Crown",
+    "description": "Emerald-and-copper hybrid with royal ring. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0205.png",
+    "external_url": "",
+    "number": 6,
+    "element": "Emerald",
+    "aura": "Verdigris Glow",
+    "class": "Rare",
+    "origin": "Storm Valley",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 206,
+    "name": "Tesla Tower #0206 – Obsidian Monarch",
+    "description": "Black obelisk crowned in gold, storm-forged. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0206.png",
+    "external_url": "",
+    "number": 9,
+    "element": "Obsidian",
+    "aura": "Royal Bolt",
+    "class": "Rare",
+    "origin": "Thunder Reach",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 301,
+    "name": "Tesla Tower #0301 – Celestial Glyph Obelisk",
+    "description": "Runic cosmic obelisk beneath planetary arcs. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0301.png",
+    "external_url": "",
+    "number": 3,
+    "element": "Cosmic",
+    "aura": "Glyph Radiance",
+    "class": "Legendary",
+    "origin": "Cosmic Gate",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 302,
+    "name": "Tesla Tower #0302 – Hourglass of Aeons",
+    "description": "Temporal tower that bends sand and lightning. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0302.png",
+    "external_url": "",
+    "number": 6,
+    "element": "Time",
+    "aura": "Golden Sands Halo",
+    "class": "Legendary",
+    "origin": "Celestial Desert",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 303,
+    "name": "Tesla Tower #0303 – Stained Cathedral Spire",
+    "description": "Gothic glass obelisk lit by violet storms. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0303.png",
+    "external_url": "",
+    "number": 9,
+    "element": "Glass",
+    "aura": "Stained Aurora",
+    "class": "Legendary",
+    "origin": "Cathedral Wastes",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 304,
+    "name": "Tesla Tower #0304 – Diamond Spiral Pillar",
+    "description": "Pure diamond helix focusing perfect arcs. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0304.png",
+    "external_url": "",
+    "number": 3,
+    "element": "Diamond",
+    "aura": "Diamond Spiral",
+    "class": "Legendary",
+    "origin": "Eternal Void",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 305,
+    "name": "Tesla Tower #0305 – Rainbow Prism Obelisk",
+    "description": "Prismatic monolith crowned by triple rings. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0305.png",
+    "external_url": "",
+    "number": 6,
+    "element": "Prism",
+    "aura": "Rainbow Halo",
+    "class": "Legendary",
+    "origin": "Rainbow Realm",
+    "resonance": 0,
+    "stage": "Base"
+  },
+  {
+    "tokenID": 306,
+    "name": "Tesla Tower #0306 – Eclipse Mirror",
+    "description": "Lunar mirror-obelisk over a silent lake. This Tower holds a unique activation key — only the true owner can unlock its energy. © Tesla Towers 8888 – Σ∞3 Seal.",
+    "file_name": "0306.png",
+    "external_url": "",
+    "number": 9,
+    "element": "Moon",
+    "aura": "Eclipse Ring",
+    "class": "Legendary",
+    "origin": "Eclipse Lake",
+    "resonance": 0,
+    "stage": "Base"
+  }
+];
+    let currentClass = 'All';
+    function render(filter = '') {
+      const container = document.getElementById('collection');
+      container.innerHTML = '';
+      const term = filter.toLowerCase();
+      const filtered = tokens.filter(t => (
+        (currentClass === 'All' || t.class === currentClass) &&
+        (
+          t.name.toLowerCase().includes(term) ||
+          t.element.toLowerCase().includes(term) ||
+          t.aura.toLowerCase().includes(term) ||
+          t.origin.toLowerCase().includes(term)
+        )
+      ));
+      for (const t of filtered) {
+        const card = document.createElement('div');
+        card.className = 'glass p-4 rounded-lg hover:bg-white/10';
+        card.innerHTML = `
+          <h3 class="text-lg font-bold mb-1">${t.name}</h3>
+          <p class="text-xs mb-2 text-gray-300">${t.description}</p>
+          <ul class="text-sm space-y-1">
+            <li><strong>ID:</strong> ${t.tokenID}</li>
+            <li><strong>Element:</strong> ${t.element}</li>
+            <li><strong>Aura:</strong> ${t.aura}</li>
+            <li><strong>Class:</strong> ${t.class}</li>
+            <li><strong>Origin:</strong> ${t.origin}</li>
+          </ul>
+        `;
+        container.appendChild(card);
+      }
+    }
+    document.getElementById('search').addEventListener('input', e => render(e.target.value));
+    document.querySelectorAll('.btn-class').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentClass = btn.dataset.class;
+        // update button colors
+        document.querySelectorAll('.btn-class').forEach(b => {
+          if(b.dataset.class === currentClass) {
+            b.classList.add('bg-purple-600');
+          } else {
+            b.classList.remove('bg-purple-600');
+            b.classList.add('bg-purple-500');
+          }
+        });
+        render(document.getElementById('search').value);
+      });
+    });
+    // initial render
+    render();
+  </script>
 </body>
 </html>
